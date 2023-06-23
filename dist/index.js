@@ -3663,7 +3663,7 @@ class FTPSyncProvider {
         return __awaiter(this, void 0, void 0, function* () {
             const totalCount = diffs.delete.length + diffs.upload.length + diffs.replace.length;
             this.logger.all(`----------------------------------------------------------------`);
-            this.logger.all(`Making changes to ${totalCount} ${(0, utilities_1.pluralize)(totalCount, "file/folder", "files/folders")} to sync server state`);
+            this.logger.all(`Making changes to ${totalCount} ${(0, utilities_1.pluralize)(totalCount, "file/folder", "files/folders")}`);
             this.logger.all(`Uploading: ${(0, pretty_bytes_1.default)(diffs.sizeUpload)} -- Deleting: ${(0, pretty_bytes_1.default)(diffs.sizeDelete)} -- Replacing: ${(0, pretty_bytes_1.default)(diffs.sizeReplace)}`);
             this.logger.all(`----------------------------------------------------------------`);
             // create new folders
