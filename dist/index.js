@@ -3305,23 +3305,23 @@ function deploy(args, logger, timings) {
             logger.standard(`----------------------------------------------------------------`);
             const diffs = diffTool.getDiffs(localFiles, serverFiles);
             diffs.upload.filter((itemUpload) => itemUpload.type === "folder").map((itemUpload) => {
-                logger.standard(`📁 Create: ${itemUpload.name}`);
+                logger.standard(`📁 Create Folder: ${itemUpload.name}`);
             });
             diffs.upload.filter((itemUpload) => itemUpload.type === "file").map((itemUpload) => {
-                logger.standard(`📄 Upload: ${itemUpload.name}`);
+                logger.standard(`📤 Upload File: ${itemUpload.name}`);
             });
             diffs.replace.map((itemReplace) => {
-                logger.standard(`🔁 File replace: ${itemReplace.name}`);
+                logger.standard(`🔁 Replace File: ${itemReplace.name}`);
             });
             diffs.delete.filter((itemUpload) => itemUpload.type === "file").map((itemDelete) => {
-                logger.standard(`📄 Delete: ${itemDelete.name}    `);
+                logger.standard(`🗑️ Delete File: ${itemDelete.name}    `);
             });
             diffs.delete.filter((itemUpload) => itemUpload.type === "folder").map((itemDelete) => {
-                logger.standard(`📁 Delete: ${itemDelete.name}    `);
+                logger.standard(`🗑️ Delete Folder: ${itemDelete.name}    `);
             });
             diffs.same.map((itemSame) => {
                 if (itemSame.type === "file") {
-                    logger.standard(`⚖️  File content is the same, doing nothing: ${itemSame.name}`);
+                    logger.standard(`⏳ Ignore: ${itemSame.name}`);
                 }
             });
             timings.stop("logging");
