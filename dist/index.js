@@ -3243,24 +3243,34 @@ function getServerFiles(client, logger, timings, args) {
                 throw new Error("dangerous-clean-slate was run");
             }
             const serverFiles = yield downloadFileList(client, logger, args["state-name"]);
-            
+
             const generatedTime = new Date(serverFiles.generatedTime);
 
-            const options = {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-                second: undefined,
-                timeZone: "Europe/London"
-            };
+            function getOrdinalSuffix(date) {
+                const day = date.getDate();
+                if (day >= 11 && day <= 13) {
+                    return 'th';
+                }
+                switch (day % 10) {
+                    case 1: return 'st';
+                    case 2: return 'nd';
+                    case 3: return 'rd';
+                    default: return 'th';
+                }
+            }
 
-            const formattedDate = generatedTime.toLocaleDateString(undefined, options);
-            const formattedTime = generatedTime.toLocaleTimeString(undefined, { hour12: true, hour: 'numeric', minute: 'numeric' }).toLowerCase();
+            function formatTimeWithAmPm(date) {
+                let hours = date.getHours();
+                const minutes = date.getMinutes();
+                const period = hours >= 12 ? 'pm' : 'am';
+                hours = hours % 12 || 12;
+                return `${hours}:${minutes.toString().padStart(2, '0')} ${period}`;
+            }
+
+            const formattedDate = `${generatedTime.getDate()}${getOrdinalSuffix(generatedTime)} ${generatedTime.toLocaleString('en-US', { month: 'long', year: 'numeric' })}`;
+            const formattedTime = formatTimeWithAmPm(generatedTime);
 
             logger.all(`Last updated: ${formattedDate} - ${formattedTime}`);
-
 
 
             // apply exclude options to server
