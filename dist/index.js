@@ -3243,7 +3243,7 @@ function getServerFiles(client, logger, timings, args) {
                 throw new Error("dangerous-clean-slate was run");
             }
             const serverFiles = yield downloadFileList(client, logger, args["state-name"]);
-
+            
             const generatedTime = new Date(serverFiles.generatedTime);
 
             const options = {
@@ -3252,14 +3252,15 @@ function getServerFiles(client, logger, timings, args) {
                 year: "numeric",
                 hour: "numeric",
                 minute: "numeric",
-                second: undefined, // Remove milliseconds from the output
+                second: undefined,
                 timeZone: "Europe/London"
             };
 
             const formattedDate = generatedTime.toLocaleDateString(undefined, options);
-            const formattedTime = generatedTime.toLocaleTimeString(undefined, { hour12: true }).toLowerCase(); // Convert AM/PM to lowercase
+            const formattedTime = generatedTime.toLocaleTimeString(undefined, { hour12: true, hour: 'numeric', minute: 'numeric' }).toLowerCase();
 
             logger.all(`Last updated: ${formattedDate} - ${formattedTime}`);
+
 
 
             // apply exclude options to server
