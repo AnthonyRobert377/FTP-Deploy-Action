@@ -3295,8 +3295,6 @@ function deploy(args, logger, timings) {
             logger.standard(`Local Files:\t${(0, utilities_1.formatNumber)(localFiles.data.length)}`);
             logger.standard(`Server Files:\t${(0, utilities_1.formatNumber)(serverFiles.data.length)}`);
             logger.standard(`----------------------------------------------------------------`);
-            logger.standard(`Calculating differences between client & server`);
-            logger.standard(`----------------------------------------------------------------`);
             const diffs = diffTool.getDiffs(localFiles, serverFiles);
             diffs.upload.filter((itemUpload) => itemUpload.type === "folder").map((itemUpload) => {
                 logger.standard(`📁 Create Folder: ${itemUpload.name}`);
