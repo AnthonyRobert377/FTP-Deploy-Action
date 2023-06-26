@@ -3245,7 +3245,6 @@ function getServerFiles(client, logger, timings, args) {
             const serverFiles = yield downloadFileList(client, logger, args["state-name"]);
 
             const generatedTime = new Date(serverFiles.generatedTime);
-
             function getOrdinalSuffix(date) {
                 const day = date.getDate();
                 if (day >= 11 && day <= 13) {
@@ -3258,7 +3257,6 @@ function getServerFiles(client, logger, timings, args) {
                     default: return 'th';
                 }
             }
-
             function formatTimeWithAmPm(date) {
                 let hours = date.getHours();
                 const minutes = date.getMinutes();
@@ -3266,15 +3264,11 @@ function getServerFiles(client, logger, timings, args) {
                 hours = hours % 12 || 12;
                 return `${hours}:${minutes.toString().padStart(2, '0')} ${period}`;
             }
-
             const formattedDate = `${generatedTime.getDate()}${getOrdinalSuffix(generatedTime)} ${generatedTime.toLocaleString('en-US', { month: 'long', year: 'numeric', timeZone: 'Europe/London' })}`;
             const formattedTime = formatTimeWithAmPm(generatedTime);
-
             logger.all(`Last updated: ${formattedDate} - ${formattedTime}`);
 
-
-
-            // apply exclude options to server
+            // Apply exclude options to server
             if (args.exclude.length > 0) {
                 const filteredData = serverFiles.data.filter((item) => (0, utilities_1.applyExcludeFilter)({ path: item.name, isDirectory: () => item.type === "folder" }, args.exclude));
                 serverFiles.data = filteredData;
@@ -3342,7 +3336,7 @@ function deploy(args, logger, timings) {
             });
             diffs.same.map((itemSame) => {
                 if (itemSame.type === "file") {
-                    logger.standard(`⏳ Ignore: ${itemSame.name}`);
+                    logger.standard(`⏳ Ignore File: ${itemSame.name}`);
                 }
             });
             timings.stop("logging");
@@ -3367,14 +3361,14 @@ function deploy(args, logger, timings) {
         const uploadSpeed = (0, pretty_bytes_1.default)(totalBytesUploaded / (timings.getTime("upload") / 1000));
         // footer
         logger.all(`----------------------------------------------------------------`);
-        logger.all(`Time spent hashing: ${timings.getTimeFormatted("hash")}`);
-        logger.all(`Time spent connecting to server: ${timings.getTimeFormatted("connecting")}`);
-        logger.all(`Time spent deploying: ${timings.getTimeFormatted("upload")} (${uploadSpeed}/second)`);
-        logger.all(`  - changing dirs: ${timings.getTimeFormatted("changingDir")}`);
-        logger.all(`  - logging: ${timings.getTimeFormatted("logging")}`);
+        logger.all(`Stats:`);
+        logger.all(`Hashing: ${timings.getTimeFormatted("hash")}`);
+        logger.all(`Connecting to server: ${timings.getTimeFormatted("connecting")}`);
+        logger.all(`Deploying: ${timings.getTimeFormatted("upload")} (${uploadSpeed}/second)`);
+        logger.all(`  - Changing dirs: ${timings.getTimeFormatted("changingDir")}`);
+        logger.all(`  - Logging: ${timings.getTimeFormatted("logging")}`);
         logger.all(`----------------------------------------------------------------`);
-        logger.all(`Total time: ${timings.getTimeFormatted("total")}`);
-        logger.all(`----------------------------------------------------------------`);
+        logger.all(`Total: ${timings.getTimeFormatted("total")}`);
     });
 }
 exports.deploy = deploy;
@@ -3709,7 +3703,7 @@ class FTPSyncProvider {
                 yield this.removeFolder(file.name);
             }
             this.logger.all(`----------------------------------------------------------------`);
-            this.logger.all(`🎉 Sync complete. Saving current server state to "${this.serverPath + this.stateName}"`);
+            this.logger.all(`🎉 Sync complete!`);
             if (this.dryRun === false) {
                 yield (0, utilities_1.retryRequest)(this.logger, () => __awaiter(this, void 0, void 0, function* () { return yield this.client.uploadFrom(this.localPath + this.stateName, this.stateName); }));
             }
