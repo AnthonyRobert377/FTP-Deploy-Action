@@ -3267,10 +3267,17 @@ function getServerFiles(client, logger, timings, args) {
                 return `${hours}:${minutes.toString().padStart(2, '0')} ${period}`;
             }
 
+// Get the BST offset in minutes (1 hour = 60 minutes)
+            const bstOffset = generatedTime.getTimezoneOffset() === 60 ? 60 : 0;
+
+// Adjust the generatedTime by adding the BST offset
+            generatedTime.setMinutes(generatedTime.getMinutes() + bstOffset);
+
             const formattedDate = `${generatedTime.getDate()}${getOrdinalSuffix(generatedTime)} ${generatedTime.toLocaleString('en-US', { month: 'long', year: 'numeric', timeZone: 'Europe/London' })}`;
             const formattedTime = formatTimeWithAmPm(generatedTime);
 
             logger.all(`Last updated: ${formattedDate} - ${formattedTime}`);
+
 
 
 
