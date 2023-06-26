@@ -3244,7 +3244,22 @@ function getServerFiles(client, logger, timings, args) {
             }
             const serverFiles = yield downloadFileList(client, logger, args["state-name"]);
             logger.all(`----------------------------------------------------------------`);
-            logger.all(`Last published on 📅 ${new Date(serverFiles.generatedTime).toLocaleDateString(undefined, { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric" })}`);
+
+
+            const generatedTime = new Date(serverFiles.generatedTime);
+
+            const options = {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                timeZone: "Europe/London" // Replace with your desired timezone
+            };
+
+            logger.all(`Last updated: 📅 ${generatedTime.toLocaleString(undefined, options)}`);
+
             // apply exclude options to server
             if (args.exclude.length > 0) {
                 const filteredData = serverFiles.data.filter((item) => (0, utilities_1.applyExcludeFilter)({ path: item.name, isDirectory: () => item.type === "folder" }, args.exclude));
