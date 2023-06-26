@@ -3245,17 +3245,22 @@ function getServerFiles(client, logger, timings, args) {
             const serverFiles = yield downloadFileList(client, logger, args["state-name"]);
 
             const generatedTime = new Date(serverFiles.generatedTime);
+
             const options = {
                 day: "numeric",
                 month: "long",
                 year: "numeric",
                 hour: "numeric",
                 minute: "numeric",
+                second: undefined, // Remove milliseconds from the output
                 timeZone: "Europe/London"
             };
+
             const formattedDate = generatedTime.toLocaleDateString(undefined, options);
-            const formattedTime = generatedTime.toLocaleTimeString(undefined, { hour12: true });
+            const formattedTime = generatedTime.toLocaleTimeString(undefined, { hour12: true }).toLowerCase(); // Convert AM/PM to lowercase
+
             logger.all(`Last updated: ${formattedDate} - ${formattedTime}`);
+
 
             // apply exclude options to server
             if (args.exclude.length > 0) {
