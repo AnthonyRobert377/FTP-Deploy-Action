@@ -3243,22 +3243,19 @@ function getServerFiles(client, logger, timings, args) {
                 throw new Error("dangerous-clean-slate was run");
             }
             const serverFiles = yield downloadFileList(client, logger, args["state-name"]);
-            logger.all(`----------------------------------------------------------------`);
-
 
             const generatedTime = new Date(serverFiles.generatedTime);
-
             const options = {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
                 day: "numeric",
+                month: "long",
+                year: "numeric",
                 hour: "numeric",
                 minute: "numeric",
-                timeZone: "Europe/London" // Replace with your desired timezone
+                timeZone: "Europe/London"
             };
-
-            logger.all(`Last updated: 📅 ${generatedTime.toLocaleString(undefined, options)}`);
+            const formattedDate = generatedTime.toLocaleDateString(undefined, options);
+            const formattedTime = generatedTime.toLocaleTimeString(undefined, { hour12: true });
+            logger.all(`Last updated: ${formattedDate} - ${formattedTime}`);
 
             // apply exclude options to server
             if (args.exclude.length > 0) {
