@@ -3267,10 +3267,11 @@ function getServerFiles(client, logger, timings, args) {
                 return `${hours}:${minutes.toString().padStart(2, '0')} ${period}`;
             }
 
-            const formattedDate = `${generatedTime.getDate()}${getOrdinalSuffix(generatedTime)} ${generatedTime.toLocaleString('en-US', { month: 'long', year: 'numeric' })}`;
+            const formattedDate = `${generatedTime.getDate()}${getOrdinalSuffix(generatedTime)} ${generatedTime.toLocaleString('en-US', { month: 'long', year: 'numeric', timeZone: 'Europe/London' })}`;
             const formattedTime = formatTimeWithAmPm(generatedTime);
 
             logger.all(`Last updated: ${formattedDate} - ${formattedTime}`);
+
 
 
             // apply exclude options to server
