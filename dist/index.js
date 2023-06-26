@@ -3252,10 +3252,14 @@ function getServerFiles(client, logger, timings, args) {
                     return 'th';
                 }
                 switch (day % 10) {
-                    case 1: return 'st';
-                    case 2: return 'nd';
-                    case 3: return 'rd';
-                    default: return 'th';
+                    case 1:
+                        return 'st';
+                    case 2:
+                        return 'nd';
+                    case 3:
+                        return 'rd';
+                    default:
+                        return 'th';
                 }
             }
 
@@ -3267,16 +3271,25 @@ function getServerFiles(client, logger, timings, args) {
                 return `${hours}:${minutes.toString().padStart(2, '0')} ${period}`;
             }
 
-// Get the BST offset in minutes (1 hour = 60 minutes)
-            const bstOffset = generatedTime.getTimezoneOffset() === 60 ? 60 : 0;
+            const isBST = (date) => {
+                const year = date.getFullYear();
+                const dstStart = new Date(Date.UTC(year, 2, 25, 1)); // Last Sunday in March
+                const dstEnd = new Date(Date.UTC(year, 9, 31, 1)); // Last Sunday in October
+                return date >= dstStart && date < dstEnd;
+            };
 
-// Adjust the generatedTime by adding the BST offset
+            const bstOffset = isBST(generatedTime) ? 60 : 0;
             generatedTime.setMinutes(generatedTime.getMinutes() + bstOffset);
 
-            const formattedDate = `${generatedTime.getDate()}${getOrdinalSuffix(generatedTime)} ${generatedTime.toLocaleString('en-US', { month: 'long', year: 'numeric', timeZone: 'Europe/London' })}`;
+            const formattedDate = `${generatedTime.getDate()}${getOrdinalSuffix(generatedTime)} ${generatedTime.toLocaleString('en-US', {
+                month: 'long',
+                year: 'numeric',
+                timeZone: 'Europe/London'
+            })}`;
             const formattedTime = formatTimeWithAmPm(generatedTime);
 
             logger.all(`Last updated: ${formattedDate} - ${formattedTime}`);
+
 
 
 
