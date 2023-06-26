@@ -3362,12 +3362,11 @@ function deploy(args, logger, timings) {
         // footer
         logger.all(`----------------------------------------------------------------`);
         logger.all(`Stats:`);
-        logger.all(`Hashing: ${timings.getTimeFormatted("hash")}`);
-        logger.all(`Connecting to server: ${timings.getTimeFormatted("connecting")}`);
-        logger.all(`Deploying: ${timings.getTimeFormatted("upload")} (${uploadSpeed}/second)`);
-        logger.all(`  - Changing dirs: ${timings.getTimeFormatted("changingDir")}`);
-        logger.all(`  - Logging: ${timings.getTimeFormatted("logging")}`);
-        logger.all(`----------------------------------------------------------------`);
+        logger.all(`  - Hashing: ${timings.getTimeFormatted("hash")}`);
+        logger.all(`  - Connecting: ${timings.getTimeFormatted("connecting")}`);
+        logger.all(`  - Deploying: ${timings.getTimeFormatted("upload")} (${uploadSpeed}/second)`);
+        logger.all(`    - Changing dirs: ${timings.getTimeFormatted("changingDir")}`);
+        logger.all(`    - Logging: ${timings.getTimeFormatted("logging")}`);
         logger.all(`Total: ${timings.getTimeFormatted("total")}`);
     });
 }
