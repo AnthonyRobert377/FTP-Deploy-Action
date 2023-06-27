@@ -3664,8 +3664,8 @@ class FTPSyncProvider {
     }
     uploadFile(filePath, type = "upload") {
         return __awaiter(this, void 0, void 0, function* () {
-            const typePresent = type === "upload" ? "uploading" : "replacing";
-            const typePast = type === "upload" ? "uploaded" : "replaced";
+            const typePresent = type === "upload" ? "📤 Uploading" : "🔁 Replacing";
+            const typePast = type === "upload" ? "📤 Uploaded" : "🔁 Replaced";
             this.logger.all(`${typePresent} "${filePath}"`);
             if (this.dryRun === false) {
                 yield (0, utilities_1.retryRequest)(this.logger, () => __awaiter(this, void 0, void 0, function* () { return yield this.client.uploadFrom(this.localPath + filePath, filePath); }));
