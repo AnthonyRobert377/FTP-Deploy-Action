@@ -3666,6 +3666,7 @@ class FTPSyncProvider {
         return __awaiter(this, void 0, void 0, function* () {
             const typePresent = type === "upload" ? "📤 Uploading" : "🔁 Replacing";
             const typePast = type === "upload" ? "📤 Uploaded" : "🔁 Replaced";
+            this.logger.all(`----------------------------------------------------------------`);
             this.logger.all(`${typePresent}: ${filePath}`);
             if (this.dryRun === false) {
                 yield (0, utilities_1.retryRequest)(this.logger, () => __awaiter(this, void 0, void 0, function* () { return yield this.client.uploadFrom(this.localPath + filePath, filePath); }));
@@ -3679,7 +3680,7 @@ class FTPSyncProvider {
             this.logger.all(`----------------------------------------------------------------`);
             this.logger.all(`Making changes to ${totalCount} ${(0, utilities_1.pluralize)(totalCount, "file/folder", "files/folders")}`);
             this.logger.all(`Uploading: ${(0, pretty_bytes_1.default)(diffs.sizeUpload)} -- Deleting: ${(0, pretty_bytes_1.default)(diffs.sizeDelete)} -- Replacing: ${(0, pretty_bytes_1.default)(diffs.sizeReplace)}`);
-            this.logger.all(`----------------------------------------------------------------`);
+            
             // create new folders
             for (const file of diffs.upload.filter(item => item.type === "folder")) {
                 yield this.createFolder(file.name);
