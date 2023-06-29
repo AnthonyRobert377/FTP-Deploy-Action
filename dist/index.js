@@ -3713,7 +3713,7 @@ class FTPSyncProvider {
             }
 
             this.logger.all(`🎉 Sync complete!`);
-            this.logger.all(``);
+            this.logger.all(` `);
             if (this.dryRun === false) {
                 yield (0, utilities_1.retryRequest)(this.logger, () => __awaiter(this, void 0, void 0, function* () { return yield this.client.uploadFrom(this.localPath + this.stateName, this.stateName); }));
             }
