@@ -3708,7 +3708,7 @@ class FTPSyncProvider {
                 noLogs = 1;
             }
 
-            if (noLogs === 0) {
+            if (noLogs === 1) {
                 this.logger.all(`----------------------------------------------------------------`);
             }
 
