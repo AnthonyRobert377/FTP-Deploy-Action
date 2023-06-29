@@ -3680,35 +3680,35 @@ class FTPSyncProvider {
             this.logger.all(`Uploading: ${(0, pretty_bytes_1.default)(diffs.sizeUpload)} -- Deleting: ${(0, pretty_bytes_1.default)(diffs.sizeDelete)} -- Replacing: ${(0, pretty_bytes_1.default)(diffs.sizeReplace)}`);
             this.logger.all(`----------------------------------------------------------------`);
 
-            let noLogs = 0;
+            let isLogs = 0;
             // create new folders
             for (const file of diffs.upload.filter(item => item.type === "folder")) {
                 yield this.createFolder(file.name);
-                noLogs = 1;
+                isLogs = 1;
             }
             // upload new files
             for (const file of diffs.upload.filter(item => item.type === "file").filter(item => item.name !== this.stateName)) {
                 yield this.uploadFile(file.name, "upload");
-                noLogs = 1;
+                isLogs = 1;
             }
             // replace new files
             for (const file of diffs.replace.filter(item => item.type === "file").filter(item => item.name !== this.stateName)) {
                 // note: FTP will replace old files with new files. We run replacements after uploads to limit downtime
                 yield this.uploadFile(file.name, "replace");
-                noLogs = 1;
+                isLogs = 1;
             }
             // delete old files
             for (const file of diffs.delete.filter(item => item.type === "file")) {
                 yield this.removeFile(file.name);
-                noLogs = 1;
+                isLogs = 1;
             }
             // delete old folders
             for (const file of diffs.delete.filter(item => item.type === "folder")) {
                 yield this.removeFolder(file.name);
-                noLogs = 1;
+                isLogs = 1;
             }
 
-            if (noLogs === 1) {
+            if (isLogs === 1) {
                 this.logger.all(`----------------------------------------------------------------`);
             }
 
